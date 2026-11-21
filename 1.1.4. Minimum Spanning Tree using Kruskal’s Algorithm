@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+
+
+void kruskalMST(int **cost, int V) {
+
+	// Write your code here...
+ int *parent = (int *)malloc(V * sizeof(int));
+    for (int i = 0; i < V; i++) {
+        parent[i] = i;
+    }
+
+    int edge_count = 0;
+    int min_cost = 0;
+    const int INF = 9999;
+
+    // Kruskal's algorithm requires exactly V - 1 edges for a valid MST
+    while (edge_count < V - 1) {
+        int min = INF;
+        int u = -1, v = -1;
+
+        // Traverse the upper triangular matrix row-wise
+        // This naturally processes edge weights and tie-breakers in the required order
+        for (int i = 0; i < V; i++) {
+            for (int j = i + 1; j < V; j++) {
+                if (cost[i][j] < min) {
+                    
+                    // Inlined Find operation to check root sets of i and j
+                    int root_i = i;
+                    while (parent[root_i] != root_i) {
+                        root_i = parent[root_i];
+                    }
+                    
+                    int root_j = j;
+}
