@@ -16,18 +16,16 @@ void kruskalMST(int **cost, int V) {
     int min_cost = 0;
     const int INF = 9999;
 
-    // Kruskal's algorithm requires exactly V - 1 edges for a valid MST
+
     while (edge_count < V - 1) {
         int min = INF;
         int u = -1, v = -1;
 
-        // Traverse the upper triangular matrix row-wise
-        // This naturally processes edge weights and tie-breakers in the required order
         for (int i = 0; i < V; i++) {
             for (int j = i + 1; j < V; j++) {
                 if (cost[i][j] < min) {
                     
-                    // Inlined Find operation to check root sets of i and j
+
                     int root_i = i;
                     while (parent[root_i] != root_i) {
                         root_i = parent[root_i];
@@ -36,9 +34,8 @@ void kruskalMST(int **cost, int V) {
                     int root_j = j;
                     while (parent[root_j] != root_j) {
                         root_j = parent[root_j];
-                    }
+}
 
-                    // If they belong to different components, it won't form a cycle
                     if (root_i != root_j) {
                         min = cost[i][j];
                         u = i;
@@ -48,12 +45,10 @@ void kruskalMST(int **cost, int V) {
             }
         }
 
-        // If a valid edge with a weight less than INF is found, include it
         if (u != -1 && v != -1) {
             printf("Edge %d:(%d, %d) cost:%d\n", edge_count, u, v, min);
             min_cost += min;
 
-            // Inlined Union operation: link components together
             int root_u = u;
             while (parent[root_u] != root_u) {
                 root_u = parent[root_u];
@@ -66,14 +61,13 @@ void kruskalMST(int **cost, int V) {
 
             edge_count++;
         } else {
-            // Stop early if no more edges connect the remaining nodes (disconnected graph)
+
             break;
         }
     }
 
     printf("Minimum cost= %d\n", min_cost);
-    
-    // Free the dynamically allocated parent tracker array
+
     free(parent);
 }
 
