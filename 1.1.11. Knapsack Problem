@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
+int main() {
+    int N;
+    if (scanf("%d", &N) != 1) return 0;
+
+    int *values = (int *)malloc(N * sizeof(int));
+    for (int i = 0; i < N; ++i) {
+        scanf("%d", &values[i]);
+    }
+
+    int *weights = (int *)malloc(N * sizeof(int));
+    for (int i = 0; i < N; ++i) {
+        scanf("%d", &weights[i]);
+    }
+
+    int W;
+    scanf("%d", &W);
+
+    int *dp = (int *)calloc(W + 1, sizeof(int));
+
+    for (int i = 0; i < N; ++i) {
+        int current_weight = weights[i];
+        int current_value = values[i];
+
+        for (int w = W; w >= current_weight; --w) {
+            dp[w] = MAX(dp[w], dp[w - current_weight] + current_value);
+        }
+    }
+
+    printf("%d\n", dp[W]);
+
+    free(values);
+    free(weights);
+    free(dp);
+
+    return 0;
+}
+
