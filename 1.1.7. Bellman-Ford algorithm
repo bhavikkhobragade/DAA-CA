@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define INF 2e9
+
+typedef struct {
+    int u, v, w;
+} Edge;
+
+void print_path(int parent[], int vertex) {
+    if (parent[vertex] == -1) {
+        printf("%d", vertex);
+        return;
+    }
+    print_path(parent, parent[vertex]);
+    printf("->%d", vertex);
+}
+
+int main() {
+    int V, E;
+    if (scanf("%d %d", &V, &E) != 2) return 0;
+
+    Edge *edges = (Edge *)malloc(E * sizeof(Edge));
+    for (int i = 0; i < E; i++) {
+        scanf("%d %d %d", &edges[i].u, &edges[i].v, &edges[i].w);
+    }
+
+    int src;
+    scanf("%d", &src);
+
+    int *dist = (int *)malloc((V + 1) * sizeof(int));
+    int *parent = (int *)malloc((V + 1) * sizeof(int));
+
+    for (int i = 1; i <= V; i++) {
+        dist[i] = INF;
+        parent[i] = -1;
