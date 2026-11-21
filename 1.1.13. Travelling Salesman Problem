@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define INF 1e9
+
+int min_cost = INF;
+
+void find_tsp(int current_city, int n, int count, int current_cost, int* visited, int** cost_matrix, int start_city) {
+
+	if (current_cost >= min_cost) {
+		return;
+	}
+
+	if (count == n) {
+
+		if (cost_matrix[current_city][start_city] != -1) {
+			int total_cost = current_cost + cost_matrix[current_city][start_city];
+			if (total_cost < min_cost) {
+				min_cost = total_cost;
+			}
+		}
+	return;
+	}
+
+	for (int next_city = 0; next_city < n; next_city++) {
+		if (!visited[next_city] && cost_matrix[current_city][next_city] != -1) {
+			visited[next_city] = 1;
+			find_tsp(next_city, n, count + 1, current_cost + cost_matrix[current_city][next_city], visited, cost_matrix, start_city);
+			visited[next_city] = 0;
+		}
+	}
+}
+
+int main() {
+	int n;
+	if (scanf("%d", &n) != 1) return 0;
